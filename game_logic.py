@@ -6,11 +6,13 @@ Project: Snowman-Meltdown
 
 """
 import random
+import sys
 from ascii_art import STAGES
 
 # List of secret words
-WORDS = ["python", "git", "github", "snowman", "meltdown"]
-MAX_MISTAKES = len(STAGES) - 1  # Maximum number of mistakes allowed (3)
+WORDS = ["python", "git", "github", "snowman", "meltdown", "programming",
+		 "computer", "keyboard", "algorithm", "developer"]
+MAX_MISTAKES = len(STAGES) - 1  # Maximum number of mistakes allowed
 
 
 def get_random_word():
@@ -18,28 +20,50 @@ def get_random_word():
 	return random.choice(WORDS)
 
 
+def clear_screen():
+	"""Clear the terminal screen for better readability."""
+	# For Windows and Unix-like systems
+	import os
+	os.system('cls' if os.name == 'nt' else 'clear')
+
+
 def display_game_state(mistakes, secret_word, guessed_letters):
 	"""Display the current game state including snowman ASCII art and word progress."""
+	print("\n" + "=" * 50)
+	print("        SNOWMAN MELTDOWN")
+	print("=" * 50)
+
 	# Display the snowman stage for the current number of mistakes
-	# Ensure we don't try to access an index that doesn't exist
 	if mistakes <= MAX_MISTAKES:
 		print(STAGES[mistakes])
 	else:
-		print(STAGES[MAX_MISTAKES])  # Show the final melted stage
+		print(STAGES[MAX_MISTAKES])
 
-	# Build a display version of the secret word
+	# Show mistake counter with visual indicator
+	print(f"Mistakes: {mistakes}/{MAX_MISTAKES} ", end="")
+	if mistakes > 0:
+		print("💧" * mistakes, end="")
+	print("\n")
+
+	# Build a display version of the secret word with better formatting
 	display_word = ""
 	for letter in secret_word:
 		if letter in guessed_letters:
-			display_word += letter + " "
+			display_word += f" {letter.upper()} "
 		else:
-			display_word += "_ "
-	print("Word: ", display_word)
+			display_word += " _ "
 
-	# Show guessed letters so far
+	print("Word:", display_word)
+	print("-" * 50)
+
+	# Show guessed letters in a nice format
 	if guessed_letters:
-		print("Guessed letters:", ", ".join(sorted(guessed_letters)))
-	print("\n")
+		guessed_sorted = sorted(guessed_letters)
+		print(f"Guessed letters: {', '.join(guessed_sorted).upper()}")
+	else:
+		print("Guessed letters: None yet")
+
+	print("=" * 50 + "\n")
 
 
 def is_word_guessed(secret_word, guessed_letters):
@@ -50,57 +74,151 @@ def is_word_guessed(secret_word, guessed_letters):
 	return True
 
 
-def play_game():
-	"""Main game function to run Snowman Meltdown."""
-	secret_word = get_random_word()
-	guessed_letters = []
-	mistakes = 0
-
-	print("Welcome to Snowman Meltdown!")
-	print("Try to save the snowman by guessing the word before he melts!")
-	print(f"The word has {len(secret_word)} letters.")
-	print()
-
-	# Main game loop - continue while game is still active
+def get_valid_guess(guessed_letters):
+	"""Get and validate a single alphabetical character guess."""
 	while True:
-		# Display current game state
-		display_game_state(mistakes, secret_word, guessed_letters)
-
-		# Check win condition
-		if is_word_guessed(secret_word, guessed_letters):
-			print(f"Congratulations! You saved the snowman!")
-			print(f"The word was: {secret_word}")
-			break
-
-		# Check loss condition
-		if mistakes >= MAX_MISTAKES:
-			print(f"Oh no! The snowman has melted completely!")
-			print(f"The word was: {secret_word}")
-			print("Better luck next time!")
-			break
-
-		# Get player's guess
 		guess = input("Guess a letter: ").lower().strip()
 
-		# Validate input
-		if len(guess) != 1 or not guess.isalpha():
-			print("Please enter a single letter.\n")
+		# Check if input is empty
+		if not guess:
+			print("❌ Please enter a letter.\n")
+			continue
+
+		# Check if input is a single character
+		if len(guess) != 1:
+			print("❌ Please enter only ONE letter.\n")
+			continue
+
+		# Check if input is a letter
+		if not guess.isalpha():
+			print("❌ Please enter a letter (a-z).\n")
 			continue
 
 		# Check if letter was already guessed
 		if guess in guessed_letters:
-			print(f"You already guessed '{guess}'. Try a different letter.\n")
+			print(f"⚠️  You already guessed '{guess.upper()}'. Try a different letter.\n")
 			continue
 
-		# Add letter to guessed letters
-		guessed_letters.append(guess)
+		return guess
 
-		# Check if the guess is in the secret word
-		if guess in secret_word:
-			print(f"Good guess! '{guess}' is in the word.\n")
+
+def play_again():
+	"""Ask the user if they want to play again."""
+	while True:
+		answer = input("\n🎮 Would you like to play again? (y/n): ").lower().strip()
+		if answer == 'y' or answer == 'yes':
+			return True
+		elif answer == 'n' or answer == 'no':
+			return False
 		else:
-			print(f"Sorry, '{guess}' is not in the word.")
-			mistakes += 1
-			print(f"Mistakes: {mistakes}/{MAX_MISTAKES}\n")
+			print("Please enter 'y' for yes or 'n' for no.")
 
 
+def display_welcome():
+	"""Display welcome message and game instructions."""
+	print("\n" + "=" * 50)
+	print("        WELCOME TO SNOWMAN MELTDOWN!")
+	print("=" * 50)
+	print("\n📖 INSTRUCTIONS:")
+	print("• Try to guess the secret word one letter at a time")
+	print("• Each wrong guess makes the snowman melt more")
+	print(f"• You have {MAX_MISTAKES} wrong guesses before the snowman melts completely")
+	print("• Guess all letters correctly to save the snowman!")
+	print("\n" + "=" * 50 + "\n")
+
+	input("Press Enter to start the game...")
+	clear_screen()
+
+
+def play_game():
+	"""Main game function to run Snowman Meltdown."""
+	while True:
+		# Clear screen for fresh game
+		clear_screen()
+
+		# Show welcome message for first game or replay
+		if not hasattr(play_game, "first_game_done"):
+			display_welcome()
+			play_game.first_game_done = True
+		else:
+			print("\n" + "=" * 50)
+			print("        NEW GAME!")
+			print("=" * 50 + "\n")
+
+		# Initialize game variables
+		secret_word = get_random_word()
+		guessed_letters = []
+		mistakes = 0
+
+		print(f"🌟 The secret word has {len(secret_word)} letters.")
+		print(f"🌟 You have {MAX_MISTAKES} wrong guesses to save the snowman!\n")
+
+		# Main game loop
+		while True:
+			# Display current game state
+			display_game_state(mistakes, secret_word, guessed_letters)
+
+			# Check win condition
+			if is_word_guessed(secret_word, guessed_letters):
+				print("🎉" * 10)
+				print(f"🎉 CONGRATULATIONS! You saved the snowman! 🎉")
+				print(f"🎉 The word was: {secret_word.upper()} 🎉")
+				print("🎉" * 10)
+				break
+
+			# Check loss condition
+			if mistakes >= MAX_MISTAKES:
+				print("💀" * 10)
+				print(f"💀 OH NO! The snowman has melted completely! 💀")
+				print(f"💀 The word was: {secret_word.upper()} 💀")
+				print("💀 Better luck next time! 💀")
+				print("💀" * 10)
+				break
+
+			# Get valid guess
+			guess = get_valid_guess(guessed_letters)
+
+			# Add letter to guessed letters
+			guessed_letters.append(guess)
+
+			# Check if the guess is in the secret word
+			if guess in secret_word:
+				# Count how many times the letter appears
+				count = secret_word.count(guess)
+				print(f"✅ GOOD GUESS! '{guess.upper()}' appears {count} time(s) in the word! ✅\n")
+				input("Press Enter to continue...")
+				clear_screen()
+			else:
+				mistakes += 1
+				print(f"❌ SORRY! '{guess.upper()}' is not in the word. ❌")
+				print(f"💔 The snowman is melting! Mistakes: {mistakes}/{MAX_MISTAKES} 💔\n")
+				input("Press Enter to continue...")
+				clear_screen()
+
+		# Ask if user wants to play again
+		if not play_again():
+			print("\n" + "=" * 50)
+			print("        Thanks for playing Snowman Meltdown!")
+			print("        Goodbye! 👋")
+			print("=" * 50 + "\n")
+			break
+		else:
+			# Reset for next game
+			clear_screen()
+			continue
+
+# TODO:
+# 1. TERM environment variable not set entfernen
+# 2. Rate Versuche von Länge des Wortes abhängig machen
+# 3. DocStrings einfügen
+# 4. PEP8 prüfen
+# 5. if __name__ == "__main__": in snowman.py auslagern
+
+
+
+if __name__ == "__main__":
+	try:
+		play_game()
+	except KeyboardInterrupt:
+		print("\n\n👋 Game interrupted. Thanks for playing!")
+		sys.exit(0)
