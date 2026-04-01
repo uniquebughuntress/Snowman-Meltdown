@@ -5,32 +5,65 @@ Author: natalya
 Project: Snowman-Meltdown
 
 """
-# Snowman ASCII Art stages
+# Snowman ASCII Art stages - Enhanced with more stages for smoother melting
 STAGES = [
     # Stage 0: Full snowman
     """
-      ___  
-     /___\\ 
-     (o o) 
-     ( : ) 
-     ( : ) 
+       ___
+      /___\\
+      (o o)
+      ( : )
+      ( : )
     """,
-    # Stage 1: Bottom part starts melting
+    # Stage 1: Snowman starts melting - bottom starts to droop
     """
-      ___  
-     /___\\ 
-     (o o) 
-     ( : ) 
+       ___
+      /___\\
+      (o o)
+      ( : )
+      ( . )
     """,
-    # Stage 2: Only the head remains
+    # Stage 2: Bottom part partially melted
     """
-      ___  
-     /___\\ 
-     (o o) 
+       ___
+      /___\\
+      (o o)
+      ( : )
     """,
-    # Stage 3: Snowman completely melted
+    # Stage 3: Bottom part completely melted, middle starts drooping
     """
-      ___  
-     /___\\ 
+       ___
+      /___\\
+      (o o)
+      ( . )
+    """,
+    # Stage 4: Only the head remains
+    """
+       ___
+      /___\\
+      (o o)
+    """,
+    # Stage 5: Head starts melting
+    """
+       ___
+      /___\\
+      (o .)
+    """,
+    # Stage 6: Head partially melted
+    """
+       ___
+      /___\\
+      ( . )
+    """,
+    # Stage 7: Snowman completely melted - only puddle remains
+    """
+       ___
+      /___\\
+      (   )
+    """,
+    # Stage 8: Just a puddle
+    """
+        ___
+       /___\\
     """
 ]
