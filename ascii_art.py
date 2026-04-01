@@ -5,6 +5,13 @@ Author: natalya
 Project: Snowman-Meltdown
 
 """
+"""Snowman ASCII art stages for the Snowman Meltdown game.
+
+This module contains the visual representation of the snowman at different
+melting stages. Each stage shows progressive melting from a full snowman
+to just a puddle.
+"""
+
 # Snowman ASCII Art stages - Enhanced with more stages for smoother melting
 STAGES = [
     # Stage 0: Full snowman
