@@ -37,7 +37,7 @@ A Python word-guessing game where you must save a snowman from melting by guessi
 ## 🚀 Enhanced Features (Beyond Basic Requirements)
 
 This game goes above and beyond the original assignment requirements:
-
+```
 | Basic Requirement | Enhancement |
 |------------------|-------------|
 | Fixed 8 mistakes | Dynamic scaling based on word length |
@@ -46,18 +46,19 @@ This game goes above and beyond the original assignment requirements:
 | Immediate scrolling | Player-controlled progression |
 | Generic errors | Specific validation messages |
 | 5 words | Extended word list (10+ words) |
-
+```
 ### Why These Enhancements Matter
 
 The basic version would have been functional but frustrating - a 3-letter word gave only 3 chances while an 8-letter word gave 8. Now the game provides a **fair, balanced challenge** for all word lengths while maintaining a **clean, professional interface**.
 
 ## 📁 Project Structure
+```
 Snowman-Meltdown/
 ├── snowman.py # Main entry point
 ├── game_logic.py # Core game mechanics
 ├── ascii_art.py # Snowman ASCII stages
 └── README.md # This file
-
+```
 
 ## 🛠️ Requirements
 
