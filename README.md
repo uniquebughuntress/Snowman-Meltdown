@@ -67,17 +67,14 @@ Snowman-Meltdown/
 ## ▶️ How to Run
 
 ```bash
-python snowman.py
-
+python3 snowman.py
+```
 💻 Code Quality
-PEP 8 compliant - Follows Python style guidelines
-
-Comprehensive docstrings - All functions documented
-
-Modular design - Separated concerns into multiple files
-
-Error handling - Graceful handling of edge cases
-
+- PEP 8 compliant - Follows Python style guidelines
+- Comprehensive docstrings - All functions documented
+- Modular design - Separated concerns into multiple files
+- Error handling - Graceful handling of edge cases
+```
 ==================================================
         WELCOME TO SNOWMAN MELTDOWN!
 ==================================================
@@ -113,17 +110,13 @@ Mistakes: 0/7
 Word:  _  _  _  _  _  _  _  _ 
 
 ... (game continues) ...
-
+```
 🤝 Contributing
 This was created as a class project to demonstrate:
-
-Python fundamentals
-
-Modular code organization
-
-User experience considerations
-
-Professional development practices
+- Python fundamentals
+- Modular code organization
+- User experience considerations
+- Professional development practices
 
 📝 Note to Instructor
 The game includes significant enhancements beyond the basic requirements to make it truly playable and enjoyable. See the "Enhanced Features" section above for details.
